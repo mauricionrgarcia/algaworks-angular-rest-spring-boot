@@ -3,6 +3,8 @@ package com.algaworks.algamoneyapi.resource;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +51,7 @@ public class CategoryResource {
 	 * @return location
 	 */
 	@PostMapping
-	public ResponseEntity<Category> createCateogry(@RequestBody Category category) {
+	public ResponseEntity<Category> createCateogry(@Valid @RequestBody Category category) {
 		Category returnCategory = categoryService.save(category);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
