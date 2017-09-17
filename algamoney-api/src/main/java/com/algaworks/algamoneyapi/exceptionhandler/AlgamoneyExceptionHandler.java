@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.algaworks.algamoneyapi.util.BungleMessage;
+import com.algaworks.algamoneyapi.util.BundleMessage;
 
 /**
  * Intercepar exceção
@@ -31,7 +31,7 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 	 * recuperar as mensagens do arquivo messages.properties
 	 */
 	@Autowired
-	private BungleMessage bungleMessage;
+	private BundleMessage bungleMessage;
 
 	/*
 	 * (non-Javadoc)

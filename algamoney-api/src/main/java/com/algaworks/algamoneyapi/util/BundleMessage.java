@@ -15,7 +15,7 @@ import org.springframework.validation.FieldError;
  * @sinse 16/09/2017 01:08:31
  */
 @Service
-public class BungleMessage {
+public class BundleMessage {
 
 	/**
 	 * recuperar as mensagens do arquivo messages.properties
