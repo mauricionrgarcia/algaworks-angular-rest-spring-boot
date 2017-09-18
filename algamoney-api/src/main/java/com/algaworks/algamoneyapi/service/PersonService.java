@@ -50,4 +50,13 @@ public class PersonService {
 	public Person save(Person person) {
 		return personRepository.save(person);
 	}
+
+	/**
+	 * Deleta uma pessoa
+	 *
+	 * @param code
+	 */
+	public void delete(Long code) {
+		personRepository.delete(code);
+	}
 }
