@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algamoneyapi.event.ResourceSaveEvent;
+import com.algaworks.algamoneyapi.model.Address;
 import com.algaworks.algamoneyapi.model.Person;
 import com.algaworks.algamoneyapi.service.PersonService;
 
@@ -85,6 +87,38 @@ public class PersonResource {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long code) {
 		personService.delete(code);
+	}
+
+	/**
+	 * Atualizar uma pessoa
+	 *
+	 * @param code
+	 * @param person
+	 */
+	@PutMapping("{id}")
+	public ResponseEntity<Person> update(@PathVariable("id") Long code, @Valid @RequestBody Person person) {
+		person = personService.update(code, person);
+		return ResponseEntity.ok(person);
+	}
+
+	/**
+	 * Atualizar o status de uma pessoa
+	 *
+	 */
+	@PutMapping("{id}/active")
+	public ResponseEntity<Person> updateActive(@PathVariable("id") Long code, @RequestBody Boolean active) {
+		Person person = personService.updateActive(code, active);
+		return ResponseEntity.ok(person);
+	}
+
+	/**
+	 * Atualizar o enderesso de uma pessoa
+	 *
+	 */
+	@PutMapping("{id}/address")
+	public ResponseEntity<Person> updateAddress(@PathVariable("id") Long code, @Valid @RequestBody Address address) {
+		Person person = personService.updateAddress(code, address);
+		return ResponseEntity.ok(person);
 	}
 
 }

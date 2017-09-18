@@ -51,7 +51,7 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 
 		ResponseError erro = new ResponseError("Erro", HttpStatus.BAD_REQUEST.value(),
 				String.valueOf(HttpStatus.BAD_REQUEST), bungleMessage.getMessage("invalid.request"),
-				ex.getCause().toString());
+				ex.getCause() == null ? ex.toString() : ex.getCause().toString());
 
 		return handleExceptionInternal(ex, erro, headers, HttpStatus.BAD_REQUEST, request);
 	}
