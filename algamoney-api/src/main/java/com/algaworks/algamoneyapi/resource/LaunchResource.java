@@ -1,15 +1,22 @@
 package com.algaworks.algamoneyapi.resource;
 
+import java.net.URI;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.algaworks.algamoneyapi.model.Launch;
 import com.algaworks.algamoneyapi.service.LaunchService;
 
@@ -64,6 +71,20 @@ public class LaunchResource {
 	public ResponseEntity<List<Launch>> findLaunchesByPerson(@PathVariable("id") Long code) {
 		List<Launch> launches = launchService.findPersonLaunch(code);
 		return ResponseEntity.ok(launches);
+	}
+
+	/**
+	 * Salva um lançamento
+	 *
+	 * @param launch
+	 * @return launch
+	 */
+	@PostMapping
+	public ResponseEntity<Launch> saveLaunch(@Valid @RequestBody Launch launch) {
+		Launch returnLaunch = launchService.save(launch);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+				.buildAndExpand(returnLaunch.getCode()).toUri();
+		return ResponseEntity.created(uri).body(returnLaunch);
 	}
 
 }

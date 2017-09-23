@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -81,10 +83,26 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler({ EmptyResultDataAccessException.class })
-	protected ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex,
-			WebRequest request) {
+	protected ResponseEntity<Object> handleEmptyResultDataAccessException(Exception ex, WebRequest request) {
 		ResponseError responseError = new ResponseError("Erro", HttpStatus.NOT_FOUND.value(),
 				String.valueOf(HttpStatus.NOT_FOUND), bungleMessage.getMessage("resource.not.found"), ex.toString());
+
+		return handleExceptionInternal(ex, Arrays.asList(responseError), new HttpHeaders(), HttpStatus.NOT_FOUND,
+				request);
+	}
+
+	/**
+	 * Trata exceção de recurso nao encontrado validação de contrains violation
+	 *
+	 * @param ex
+	 * @param request
+	 * @return
+	 */
+	@ExceptionHandler({ DataIntegrityViolationException.class })
+	protected ResponseEntity<Object> handleDataIntegrityViolationException(Exception ex, WebRequest request) {
+		ResponseError responseError = new ResponseError("Erro", HttpStatus.BAD_REQUEST.value(),
+				String.valueOf(HttpStatus.BAD_REQUEST), bungleMessage.getMessage("resource.not.found"),
+				ExceptionUtils.getRootCauseMessage(ex));
 
 		return handleExceptionInternal(ex, Arrays.asList(responseError), new HttpHeaders(), HttpStatus.NOT_FOUND,
 				request);
