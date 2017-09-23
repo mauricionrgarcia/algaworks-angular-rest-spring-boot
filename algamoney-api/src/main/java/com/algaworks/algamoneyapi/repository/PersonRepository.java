@@ -13,4 +13,12 @@ import com.algaworks.algamoneyapi.model.Person;
  */
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
+	/**
+	 * Recuperar uma pessoa pelo codigo e ativa
+	 *
+	 * @param code codigo da pessoa
+	 * @return pessoa ativa que atende o parametro
+	 */
+	Person findByCodeAndActiveTrue(Long code);
+
 }

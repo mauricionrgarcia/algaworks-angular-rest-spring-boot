@@ -65,11 +65,12 @@ public class LaunchService {
 	/**
 	 * Salva uma nova pessoa
 	 *
-	 * @param Launch {@link Launch}
+	 * @param launch {@link Launch}
 	 * @return {@link Launch}
 	 */
-	public Launch save(Launch Launch) {
-		return launchRepository.save(Launch);
+	public Launch save(Launch launch) {
+		personService.findActivePerson(launch.getPerson().getCode());
+		return launchRepository.save(launch);
 	}
 
 	/**

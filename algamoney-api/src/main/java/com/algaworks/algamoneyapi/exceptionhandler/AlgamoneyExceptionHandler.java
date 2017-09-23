@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.algaworks.algamoneyapi.exception.AlgamoneyHandlerException;
 import com.algaworks.algamoneyapi.util.BundleMessage;
 
 /**
@@ -102,6 +103,23 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleDataIntegrityViolationException(Exception ex, WebRequest request) {
 		ResponseError responseError = new ResponseError("Erro", HttpStatus.BAD_REQUEST.value(),
 				String.valueOf(HttpStatus.BAD_REQUEST), bungleMessage.getMessage("resource.not.found"),
+				ExceptionUtils.getRootCauseMessage(ex));
+
+		return handleExceptionInternal(ex, Arrays.asList(responseError), new HttpHeaders(), HttpStatus.NOT_FOUND,
+				request);
+	}
+
+	/**
+	 * Trata exceção de regras de negocio
+	 *
+	 * @param ex
+	 * @param request
+	 * @return
+	 */
+	@ExceptionHandler({ AlgamoneyHandlerException.class })
+	protected ResponseEntity<Object> handleAlgamoneyHandlerException(AlgamoneyHandlerException ex, WebRequest request) {
+		ResponseError responseError = new ResponseError("Erro", HttpStatus.BAD_REQUEST.value(),
+				String.valueOf(HttpStatus.BAD_REQUEST), bungleMessage.getMessage(ex.getMessage()),
 				ExceptionUtils.getRootCauseMessage(ex));
 
 		return handleExceptionInternal(ex, Arrays.asList(responseError), new HttpHeaders(), HttpStatus.NOT_FOUND,

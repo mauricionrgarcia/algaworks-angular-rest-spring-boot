@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.algaworks.algamoneyapi.exception.NonExistentActivePersonException;
 import com.algaworks.algamoneyapi.model.Address;
 import com.algaworks.algamoneyapi.model.Person;
 import com.algaworks.algamoneyapi.repository.PersonRepository;
@@ -44,6 +45,18 @@ public class PersonService {
 		Person person = personRepository.findOne(code);
 		if (person == null) {
 			throw new EmptyResultDataAccessException(1);
+		}
+		return person;
+	}
+
+	/**
+	 * @param code codigo
+	 * @return recupera uma pessoa pelo codigo
+	 */
+	public Person findActivePerson(Long code) {
+		Person person = personRepository.findByCodeAndActiveTrue(code);
+		if (person == null) {
+			throw new NonExistentActivePersonException();
 		}
 		return person;
 	}
