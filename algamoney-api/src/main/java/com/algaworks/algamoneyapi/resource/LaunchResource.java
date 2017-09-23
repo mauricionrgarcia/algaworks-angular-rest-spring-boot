@@ -1,0 +1,69 @@
+package com.algaworks.algamoneyapi.resource;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import com.algaworks.algamoneyapi.model.Launch;
+import com.algaworks.algamoneyapi.service.LaunchService;
+
+/**
+ * Classe que atende ao recurso Lançamento
+ *
+ * @author <a href="mailto:mauricionrgarcia@gmail.com">Mauricio</a>
+ * @version
+ * @sinse 22/09/2017 21:29:22
+ */
+@RestController
+@RequestMapping("/launches")
+public class LaunchResource {
+
+	/**
+	 * Service que atende os lançamentos
+	 */
+	@Autowired
+	private transient LaunchService launchService;
+
+	/**
+	 * @return todos os lançamentos
+	 */
+	@GetMapping
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<List<Launch>> findAll() {
+		List<Launch> launches = launchService.findAll();
+		return ResponseEntity.ok().body(launches);
+	}
+
+	/**
+	 * Lançamento de codigo
+	 *
+	 * @param code codigo
+	 * @return lançamento
+	 */
+	@GetMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<Launch> find(@PathVariable("id") Long code) {
+		Launch launch = launchService.find(code);
+		return ResponseEntity.ok(launch);
+	}
+
+	/**
+	 * Lançamento de de uma pessoa
+	 *
+	 * @param code codigo da pessoa
+	 * @return lançamento de uma pessoa
+	 */
+	@GetMapping("/person/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<List<Launch>> findLaunchesByPerson(@PathVariable("id") Long code) {
+		List<Launch> launches = launchService.findPersonLaunch(code);
+		return ResponseEntity.ok(launches);
+	}
+
+}
