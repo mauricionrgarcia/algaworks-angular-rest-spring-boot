@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * Entidade que atende a tabela TB_LAUNCH
@@ -41,12 +42,14 @@ public class Launch implements Serializable {
 	/**
 	 * descrição
 	 */
+	@NotNull
 	@Column(name = "TX_DESCRIPTION")
 	private String description;
 
 	/**
 	 * vencimento
 	 */
+	@NotNull
 	@Column(name = "DT_DUE")
 	private LocalDate dtDue;
 
@@ -59,6 +62,7 @@ public class Launch implements Serializable {
 	/**
 	 * valor
 	 */
+	@NotNull
 	@Column(name = "VL_TOTAL_AMOUNT")
 	private BigDecimal totalAmount;
 
@@ -71,6 +75,7 @@ public class Launch implements Serializable {
 	/**
 	 * tipo de lançamento
 	 */
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "ID_TYPE")
 	private TypeLaunch type;
@@ -78,6 +83,7 @@ public class Launch implements Serializable {
 	/**
 	 * categoria
 	 */
+	@NotNull
 	@ManyToOne()
 	@JoinColumn(name = "FK_CATEGORY")
 	private Category category;
@@ -85,6 +91,7 @@ public class Launch implements Serializable {
 	/**
 	 * pessoa
 	 */
+	@NotNull
 	@ManyToOne()
 	@JoinColumn(name = "FK_PERSON")
 	private Person person;
