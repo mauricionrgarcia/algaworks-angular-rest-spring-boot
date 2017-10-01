@@ -76,7 +76,6 @@
 			<version>3.4</version>
 		</dependency>
 	</dependencies>
-	http://www.algaworks.com/aulas/1485/validando-lancamento-com-bean-validation/
 
 	<build>
 		<plugins>

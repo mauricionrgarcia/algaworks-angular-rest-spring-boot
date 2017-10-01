@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.algaworks.algamoneyapi.model.Launch;
 import com.algaworks.algamoneyapi.model.Person;
 import com.algaworks.algamoneyapi.repository.LaunchRepository;
+import com.algaworks.algamoneyapi.repository.filter.LaunchFilter;
 
 /**
  * Classe de serviço que centraliza as regras de negocio para lançamentos
@@ -80,6 +81,16 @@ public class LaunchService {
 	 */
 	public void delete(Long code) {
 		launchRepository.delete(code);
+	}
+
+	/**
+	 * Consulta os lançamentos por filtro
+	 *
+	 * @param filter
+	 * @return
+	 */
+	public List<Launch> findByFilter(LaunchFilter filter) {
+		return launchRepository.searchByFilter(filter);
 	}
 
 }

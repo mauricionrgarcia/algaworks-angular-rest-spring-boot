@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.algaworks.algamoneyapi.model.Launch;
+import com.algaworks.algamoneyapi.repository.filter.LaunchFilter;
 import com.algaworks.algamoneyapi.service.LaunchService;
 
 /**
@@ -40,10 +41,23 @@ public class LaunchResource {
 	/**
 	 * @return todos os lançamentos
 	 */
-	@GetMapping
-	@ResponseStatus(code = HttpStatus.OK)
+	// @GetMapping
+	// @ResponseStatus(code = HttpStatus.OK)
+	@Deprecated
 	public ResponseEntity<List<Launch>> findAll() {
 		List<Launch> launches = launchService.findAll();
+		return ResponseEntity.ok().body(launches);
+	}
+
+	/**
+	 * Lançamento de codigo
+	 *
+	 * @param code codigo
+	 * @return lançamento
+	 */
+	@GetMapping
+	public ResponseEntity<List<Launch>> searchLanches(LaunchFilter filter) {
+		List<Launch> launches = launchService.findByFilter(filter);
 		return ResponseEntity.ok().body(launches);
 	}
 

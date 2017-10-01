@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.algaworks.algamoneyapi.model.Launch;
 import com.algaworks.algamoneyapi.model.Person;
+import com.algaworks.algamoneyapi.repository.launch.LaunchRepositoryQuery;
 
 /**
  * Repositorio que atende a entidade {@link Launch}
@@ -14,7 +15,7 @@ import com.algaworks.algamoneyapi.model.Person;
  * @version
  * @sinse 22/09/2017 21:30:18
  */
-public interface LaunchRepository extends JpaRepository<Launch, Long> {
+public interface LaunchRepository extends JpaRepository<Launch, Long>, LaunchRepositoryQuery {
 
 	/**
 	 * Recupera a lista de lançamentos dada uma pessoa
