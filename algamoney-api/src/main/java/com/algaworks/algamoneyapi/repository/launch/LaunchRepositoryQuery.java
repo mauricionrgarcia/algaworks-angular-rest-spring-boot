@@ -1,6 +1,7 @@
 package com.algaworks.algamoneyapi.repository.launch;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.algaworks.algamoneyapi.model.Launch;
 import com.algaworks.algamoneyapi.repository.filter.LaunchFilter;
@@ -18,8 +19,9 @@ public interface LaunchRepositoryQuery {
 	 * buscar todos os lançamentos por filto
 	 *
 	 * @param filter
+	 * @param page
 	 * @return
 	 */
-	public List<Launch> searchByFilter(LaunchFilter filter);
+	public Page<Launch> searchByFilter(LaunchFilter filter, Pageable page);
 
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algamoneyapi.model.Launch;
@@ -80,17 +82,19 @@ public class LaunchService {
 	 * @param code
 	 */
 	public void delete(Long code) {
-		launchRepository.delete(code);
+		Launch launch = this.find(code);
+		launchRepository.delete(launch);
 	}
 
 	/**
 	 * Consulta os lançamentos por filtro
 	 *
 	 * @param filter
+	 * @param page
 	 * @return
 	 */
-	public List<Launch> findByFilter(LaunchFilter filter) {
-		return launchRepository.searchByFilter(filter);
+	public Page<Launch> findByFilter(LaunchFilter filter, Pageable page) {
+		return launchRepository.searchByFilter(filter, page);
 	}
 
 }

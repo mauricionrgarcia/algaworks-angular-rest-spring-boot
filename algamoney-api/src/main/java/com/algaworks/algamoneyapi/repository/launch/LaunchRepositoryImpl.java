@@ -12,6 +12,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import com.algaworks.algamoneyapi.model.Launch;
 import com.algaworks.algamoneyapi.repository.filter.LaunchFilter;
@@ -32,7 +35,7 @@ public class LaunchRepositoryImpl implements LaunchRepositoryQuery {
 	private EntityManager manager;
 
 	@Override
-	public List<Launch> searchByFilter(LaunchFilter filter) {
+	public Page<Launch> searchByFilter(LaunchFilter filter, Pageable page) {
 
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Launch> criteria = builder.createQuery(Launch.class);
@@ -43,8 +46,11 @@ public class LaunchRepositoryImpl implements LaunchRepositoryQuery {
 		criteria.where(predicates);
 
 		TypedQuery<Launch> query = manager.createQuery(criteria);
-		return query.getResultList();
+		pageableQuery(query, page);
 
+		List<Launch> listReturn = query.getResultList();
+
+		return new PageImpl<>(listReturn, page, countByFilter(filter));
 	}
 
 	/**
@@ -71,6 +77,43 @@ public class LaunchRepositoryImpl implements LaunchRepositoryQuery {
 		}
 
 		return preditates.toArray(new Predicate[preditates.size()]);
+	}
+
+	/**
+	 * Adiciona a paginação na consulta
+	 *
+	 * @param query
+	 * @param page
+	 */
+	private void pageableQuery(TypedQuery<Launch> query, Pageable pageable) {
+		int page = pageable.getPageNumber();
+		int size = pageable.getPageSize();
+		int first = page * size;
+
+		query.setFirstResult(first);
+		query.setMaxResults(size);
+
+	}
+
+	/**
+	 * Retorna total de registros
+	 *
+	 * @param filter
+	 * @return total de registros
+	 */
+	private Long countByFilter(LaunchFilter filter) {
+
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+		Root<Launch> root = criteria.from(Launch.class);
+
+		Predicate[] predicates = createPredicate(filter, builder, root);
+		// criar restrições
+		criteria.where(predicates);
+
+		criteria.select(builder.count(root));
+
+		return manager.createQuery(criteria).getSingleResult();
 	}
 
 }
