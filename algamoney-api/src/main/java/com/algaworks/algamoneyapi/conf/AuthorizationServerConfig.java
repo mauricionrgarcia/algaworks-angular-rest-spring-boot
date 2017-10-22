@@ -33,8 +33,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.withClient("angular")
 			.secret("1234")
 			.scopes("read", "write")
-			.authorizedGrantTypes("password")//password flow - client recebe user/psw to recover token
-			.accessTokenValiditySeconds(1800);
+			.authorizedGrantTypes("password", "refresh_token")//password flow - client recebe user/psw to recover token
+			.accessTokenValiditySeconds(30)
+			.refreshTokenValiditySeconds(3600 * 24);
 		
 	}
 	
@@ -43,6 +44,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		endpoints
 			.tokenStore(tokenStore())
 			.accessTokenConverter(accessTokenConverter())
+			.reuseRefreshTokens(Boolean.FALSE)
 			.authenticationManager(authenticationManager);
 		
 		
