@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,7 @@ public class CategoryResource {
 	 * @return todas as categorias cadastradas
 	 */
 	@GetMapping // @RequestMapping(method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ROLE_SEE_CATEGORY') and #oauth2.hasScope('read')")
 	public ResponseEntity<List<Category>> findAll() {
 		List<Category> categories = categoryService.findAll();
 		return ResponseEntity.ok().body(categories);
@@ -51,6 +53,7 @@ public class CategoryResource {
 	 * @return location
 	 */
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_CREATE_CATEGORY') and #oauth2.hasScope('write')")
 	public ResponseEntity<Category> createCateogry(@Valid @RequestBody Category category) {
 		Category returnCategory = categoryService.save(category);
 

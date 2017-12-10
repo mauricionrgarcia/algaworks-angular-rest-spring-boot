@@ -34,8 +34,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.secret("1234")
 			.scopes("read", "write")
 			.authorizedGrantTypes("password", "refresh_token")//password flow - client recebe user/psw to recover token
-			.accessTokenValiditySeconds(30)
-			.refreshTokenValiditySeconds(3600 * 24);
+			.accessTokenValiditySeconds(300)
+			.refreshTokenValiditySeconds(3600 * 24)
+		.and().withClient("mobile")
+			  .secret("mobile")
+			  .scopes("read")
+			  .authorizedGrantTypes("password", "refresh_token")//password flow - client recebe user/psw to recover token
+			  .accessTokenValiditySeconds(300)
+			  .refreshTokenValiditySeconds(3600 * 24);
 		
 	}
 	
