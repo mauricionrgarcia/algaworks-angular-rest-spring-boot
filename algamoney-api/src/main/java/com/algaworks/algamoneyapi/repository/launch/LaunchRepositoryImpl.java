@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.algaworks.algamoneyapi.model.Launch;
 import com.algaworks.algamoneyapi.repository.filter.LaunchFilter;
+import com.algaworks.algamoneyapi.repository.projection.SimpleLaunch;
 
 /**
  * Implementação do respository {@link LaunchRepositoryQuery}
@@ -53,6 +54,34 @@ public class LaunchRepositoryImpl implements LaunchRepositoryQuery {
 		return new PageImpl<>(listReturn, page, countByFilter(filter));
 	}
 
+	@Override
+	public Page<SimpleLaunch> searchSimpeLaunchByFilter(LaunchFilter filter, Pageable page) {
+
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<SimpleLaunch> criteria = builder.createQuery(SimpleLaunch.class);
+
+		Root<Launch>root = criteria.from(Launch.class);
+		criteria.select(builder.construct(SimpleLaunch.class,
+				 root.get("code"),
+				 root.get("description"),
+				 root.get("dtDue"),
+				 root.get("dtPayment"),
+				 root.get("totalAmount"),
+				 root.get("type"),
+				 root.get("category").get("name"),
+				 root.get("person").get("name")
+				));
+		Predicate[] predicates = createPredicate(filter, builder, root);
+		// criar restrições
+		criteria.where(predicates);
+
+		TypedQuery<SimpleLaunch> query = manager.createQuery(criteria);
+		pageableQuery(query, page);
+
+		List<SimpleLaunch> listReturn = query.getResultList();
+
+		return new PageImpl<>(listReturn, page, countByFilter(filter));	
+	}
 	/**
 	 * Prepara as restrições
 	 *
@@ -85,7 +114,7 @@ public class LaunchRepositoryImpl implements LaunchRepositoryQuery {
 	 * @param query
 	 * @param page
 	 */
-	private void pageableQuery(TypedQuery<Launch> query, Pageable pageable) {
+	private void pageableQuery(TypedQuery<?> query, Pageable pageable) {
 		int page = pageable.getPageNumber();
 		int size = pageable.getPageSize();
 		int first = page * size;

@@ -70,6 +70,7 @@ public class CategoryResource {
 	 * @return categoria
 	 */
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_SEE_CATEGORY') and #oauth2.hasScope('read')")
 	public ResponseEntity<Category> findCategory(@PathVariable("id") Long code) {
 		Category category = categoryService.find(code);
 		return category == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(category);

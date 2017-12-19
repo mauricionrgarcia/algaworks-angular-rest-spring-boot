@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.algaworks.algamoneyapi.model.Launch;
 import com.algaworks.algamoneyapi.repository.filter.LaunchFilter;
+import com.algaworks.algamoneyapi.repository.projection.SimpleLaunch;
 
 /**
  * Repositorio que atende a entidade {@link Launch}
@@ -23,5 +24,14 @@ public interface LaunchRepositoryQuery {
 	 * @return
 	 */
 	public Page<Launch> searchByFilter(LaunchFilter filter, Pageable page);
+
+	/**
+	 * Atende a projeção
+	 *
+	 * @param filter
+	 * @param page
+	 * @return
+	 */
+	public Page<SimpleLaunch> searchSimpeLaunchByFilter(LaunchFilter filter, Pageable page);
 
 }

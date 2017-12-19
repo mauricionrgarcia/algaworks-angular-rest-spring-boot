@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.algaworks.algamoneyapi.model.Launch;
 import com.algaworks.algamoneyapi.repository.filter.LaunchFilter;
+import com.algaworks.algamoneyapi.repository.projection.SimpleLaunch;
 import com.algaworks.algamoneyapi.service.LaunchService;
 
 /**
@@ -60,6 +61,18 @@ public class LaunchResource {
 	@GetMapping
 	public ResponseEntity<Page<Launch>> searchLanches(LaunchFilter filter, Pageable page) {
 		Page<Launch> launches = launchService.findByFilter(filter, page);
+		return ResponseEntity.ok().body(launches);
+	}
+
+	/**
+	 * Lançamento de codigo - projection simple
+	 *
+	 * @param code codigo
+	 * @return lançamento
+	 */
+	@GetMapping(params = "summary")
+	public ResponseEntity<Page<SimpleLaunch>> searchSimpleLanches(LaunchFilter filter, Pageable page) {
+		Page<SimpleLaunch> launches = launchService.searchSimpeLaunchByFilter(filter, page);
 		return ResponseEntity.ok().body(launches);
 	}
 

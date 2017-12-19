@@ -12,6 +12,7 @@ import com.algaworks.algamoneyapi.model.Launch;
 import com.algaworks.algamoneyapi.model.Person;
 import com.algaworks.algamoneyapi.repository.LaunchRepository;
 import com.algaworks.algamoneyapi.repository.filter.LaunchFilter;
+import com.algaworks.algamoneyapi.repository.projection.SimpleLaunch;
 
 /**
  * Classe de serviço que centraliza as regras de negocio para lançamentos
@@ -95,6 +96,17 @@ public class LaunchService {
 	 */
 	public Page<Launch> findByFilter(LaunchFilter filter, Pageable page) {
 		return launchRepository.searchByFilter(filter, page);
+	}
+
+	/**
+	 * Consulta os lançamentos por filtro
+	 *
+	 * @param filter
+	 * @param page
+	 * @return
+	 */
+	public Page<SimpleLaunch> searchSimpeLaunchByFilter(LaunchFilter filter, Pageable page) {
+		return launchRepository.searchSimpeLaunchByFilter(filter, page);
 	}
 
 }
