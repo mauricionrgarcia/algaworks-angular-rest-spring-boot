@@ -1,4 +1,4 @@
-package com.algaworks.algamoneyapi.conf.property;
+package com.algaworks.algamoneyapi.conf;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
