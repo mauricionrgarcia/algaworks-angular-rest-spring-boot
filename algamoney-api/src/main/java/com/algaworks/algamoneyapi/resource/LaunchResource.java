@@ -73,7 +73,7 @@ public class LaunchResource {
 	 * @return lançamento
 	 */
 	@GetMapping(params = "summary")
-	@PreAuthorize("hasAuthority('ROLE_SEE_LAUNCH' and #oauth2.hasScope('read')")
+	@PreAuthorize("hasAuthority('ROLE_SEE_LAUNCH') and #oauth2.hasScope('read')")
 	public ResponseEntity<Page<SimpleLaunch>> searchSimpleLanches(LaunchFilter filter, Pageable page) {
 		Page<SimpleLaunch> launches = launchService.searchSimpeLaunchByFilter(filter, page);
 		return ResponseEntity.ok().body(launches);
@@ -87,7 +87,7 @@ public class LaunchResource {
 	 */
 	@GetMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
-	@PreAuthorize("hasAuthority('ROLE_SEE_LAUNCH' and #oauth2.hasScope('read')")
+	@PreAuthorize("hasAuthority('ROLE_SEE_LAUNCH') and #oauth2.hasScope('read')")
 	public ResponseEntity<Launch> find(@PathVariable("id") Long code) {
 		Launch launch = launchService.find(code);
 		return ResponseEntity.ok(launch);
@@ -101,7 +101,7 @@ public class LaunchResource {
 	 */
 	@GetMapping("/person/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
-	@PreAuthorize("hasAuthority('ROLE_SEE_LAUNCH' and #oauth2.hasScope('read')")
+	@PreAuthorize("hasAuthority('ROLE_SEE_LAUNCH') and #oauth2.hasScope('read')")
 	public ResponseEntity<List<Launch>> findLaunchesByPerson(@PathVariable("id") Long code) {
 		List<Launch> launches = launchService.findPersonLaunch(code);
 		return ResponseEntity.ok(launches);
@@ -114,7 +114,7 @@ public class LaunchResource {
 	 * @return launch
 	 */
 	@PostMapping
-	@PreAuthorize("hasAuthority('ROLE_CREATE_LAUNCH' and #oauth2.hasScope('write')")
+	@PreAuthorize("hasAuthority('ROLE_CREATE_LAUNCH') and #oauth2.hasScope('write')")
 	public ResponseEntity<Launch> saveLaunch(@Valid @RequestBody Launch launch) {
 		Launch returnLaunch = launchService.save(launch);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
