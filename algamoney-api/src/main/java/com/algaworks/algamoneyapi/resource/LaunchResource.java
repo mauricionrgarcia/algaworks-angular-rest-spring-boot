@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,6 +60,7 @@ public class LaunchResource {
 	 * @return lançamento
 	 */
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_SEE_LAUNCH') and #oauth2.hasScope('read')")
 	public ResponseEntity<Page<Launch>> searchLanches(LaunchFilter filter, Pageable page) {
 		Page<Launch> launches = launchService.findByFilter(filter, page);
 		return ResponseEntity.ok().body(launches);
@@ -71,6 +73,7 @@ public class LaunchResource {
 	 * @return lançamento
 	 */
 	@GetMapping(params = "summary")
+	@PreAuthorize("hasAuthority('ROLE_SEE_LAUNCH' and #oauth2.hasScope('read')")
 	public ResponseEntity<Page<SimpleLaunch>> searchSimpleLanches(LaunchFilter filter, Pageable page) {
 		Page<SimpleLaunch> launches = launchService.searchSimpeLaunchByFilter(filter, page);
 		return ResponseEntity.ok().body(launches);
@@ -84,6 +87,7 @@ public class LaunchResource {
 	 */
 	@GetMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
+	@PreAuthorize("hasAuthority('ROLE_SEE_LAUNCH' and #oauth2.hasScope('read')")
 	public ResponseEntity<Launch> find(@PathVariable("id") Long code) {
 		Launch launch = launchService.find(code);
 		return ResponseEntity.ok(launch);
@@ -97,6 +101,7 @@ public class LaunchResource {
 	 */
 	@GetMapping("/person/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
+	@PreAuthorize("hasAuthority('ROLE_SEE_LAUNCH' and #oauth2.hasScope('read')")
 	public ResponseEntity<List<Launch>> findLaunchesByPerson(@PathVariable("id") Long code) {
 		List<Launch> launches = launchService.findPersonLaunch(code);
 		return ResponseEntity.ok(launches);
@@ -109,6 +114,7 @@ public class LaunchResource {
 	 * @return launch
 	 */
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_CREATE_LAUNCH' and #oauth2.hasScope('write')")
 	public ResponseEntity<Launch> saveLaunch(@Valid @RequestBody Launch launch) {
 		Launch returnLaunch = launchService.save(launch);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
@@ -123,6 +129,7 @@ public class LaunchResource {
 	 * @return
 	 */
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_REMOVE_LAUNCH') and #oauth2.hasScope('write')")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long code) {
 		launchService.delete(code);
 		return ResponseEntity.noContent().build();

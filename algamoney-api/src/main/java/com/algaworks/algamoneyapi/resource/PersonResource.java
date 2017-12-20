@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +51,7 @@ public class PersonResource {
 	 * @return retorna todos os registros
 	 */
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_SEE_PERSON') and #oauth2.hasScope('read')")
 	public ResponseEntity<List<Person>> findAll() {
 		List<Person> people = personService.findAll();
 		return ResponseEntity.ok(people);
@@ -60,6 +62,7 @@ public class PersonResource {
 	 * @return Person
 	 */
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_SEE_PERSON') and #oauth2.hasScope('read')")
 	public ResponseEntity<Person> find(@PathVariable("id") Long code) {
 		Person person = personService.find(code);
 		return person == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(person);
@@ -70,6 +73,7 @@ public class PersonResource {
 	 * @return Person
 	 */
 	@PostMapping()
+	@PreAuthorize("hasAuthority('ROLE_CREATE_PERSON') and #oauth2.hasScope('write')")
 	public ResponseEntity<Person> save(@Valid @RequestBody Person person, HttpServletResponse response) {
 
 		Person returnPerson = personService.save(person);
@@ -85,6 +89,7 @@ public class PersonResource {
 	 */
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_REMOVE_PERSON') and #oauth2.hasScope('write')")
 	public void delete(@PathVariable("id") Long code) {
 		personService.delete(code);
 	}
@@ -96,6 +101,7 @@ public class PersonResource {
 	 * @param person
 	 */
 	@PutMapping("{id}")
+	@PreAuthorize("hasAuthority('ROLE_CREATE_PERSON') and #oauth2.hasScope('write')")
 	public ResponseEntity<Person> update(@PathVariable("id") Long code, @Valid @RequestBody Person person) {
 		person = personService.update(code, person);
 		return ResponseEntity.ok(person);
@@ -106,6 +112,7 @@ public class PersonResource {
 	 *
 	 */
 	@PutMapping("{id}/active")
+	@PreAuthorize("hasAuthority('ROLE_CREATE_PERSON') and #oauth2.hasScope('write')")
 	public ResponseEntity<Person> updateActive(@PathVariable("id") Long code, @RequestBody Boolean active) {
 		Person person = personService.updateActive(code, active);
 		return ResponseEntity.ok(person);
@@ -116,6 +123,7 @@ public class PersonResource {
 	 *
 	 */
 	@PutMapping("{id}/address")
+	@PreAuthorize("hasAuthority('ROLE_CREATE_PERSON') and #oauth2.hasScope('write')")
 	public ResponseEntity<Person> updateAddress(@PathVariable("id") Long code, @Valid @RequestBody Address address) {
 		Person person = personService.updateAddress(code, address);
 		return ResponseEntity.ok(person);
