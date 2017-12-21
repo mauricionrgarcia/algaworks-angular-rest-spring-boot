@@ -17,7 +17,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.algaworks.algamoneyapi.conf.AlgamoneyAPIProperty;
+import com.algaworks.algamoneyapi.conf.property.AlgamoneyAPIProperty;
 
 /**
  * Intercepta a requisição do token para remover o refresh_token do json de

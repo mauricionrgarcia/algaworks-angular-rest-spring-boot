@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import com.algaworks.algamoneyapi.conf.AlgamoneyAPIProperty;
+import com.algaworks.algamoneyapi.conf.property.AlgamoneyAPIProperty;
 
 @SpringBootApplication
 @EnableConfigurationProperties(AlgamoneyAPIProperty.class)

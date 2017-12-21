@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algamoneyapi.conf.AlgamoneyAPIProperty;
+import com.algaworks.algamoneyapi.conf.property.AlgamoneyAPIProperty;
 
 /**
  * Adicionando funcionalidades ao controle dos tokens

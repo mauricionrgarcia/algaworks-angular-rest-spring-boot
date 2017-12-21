@@ -1,4 +1,4 @@
-package com.algaworks.algamoneyapi.conf;
+package com.algaworks.algamoneyapi.conf.security;
 
 import java.util.Arrays;
 

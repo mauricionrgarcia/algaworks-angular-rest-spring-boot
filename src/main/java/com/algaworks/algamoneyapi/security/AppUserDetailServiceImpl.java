@@ -1,4 +1,4 @@
-package com.algaworks.algamoneyapi.security.util;
+package com.algaworks.algamoneyapi.security;
 
 import java.util.Collection;
 import java.util.HashSet;
