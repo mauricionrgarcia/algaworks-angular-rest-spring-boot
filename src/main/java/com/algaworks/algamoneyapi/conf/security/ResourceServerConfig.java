@@ -3,7 +3,6 @@ package com.algaworks.algamoneyapi.conf.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,10 +23,8 @@ import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecur
  *
  * @author <a href="mailto:mauricionrgarcia@gmail.com">Mauricio</a>
  * @version
- *
  * @sinse 17/10/2017 20:30:42
  */
-@Profile("oauth-security")
 @Configuration
 @EnableWebSecurity
 @EnableResourceServer
